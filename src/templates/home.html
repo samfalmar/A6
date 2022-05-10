@@ -1,0 +1,12 @@
+<!-- Heredamos el contenido de base.html-->
+{% extends './base.html' %}
+
+<!-- Definimos el título -->
+{% block title %}Home{% endblock %}
+
+<!-- Definimos el cuerpo -->
+{% block body %}
+<h1>Bienvenido</h1>
+<a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
+  
