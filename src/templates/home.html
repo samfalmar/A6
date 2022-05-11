@@ -1,17 +1,49 @@
 <!-- Heredamos el contenido de base.html-->
-{% extends './base.html' %}
+{% extends './display_base.html' %}
 
 <!-- Definimos el título -->
 {% block title %}Home{% endblock %}
 
+
 <!-- Definimos el cuerpo -->
 {% block body %}
-<div class="alert alert-success" role="alert">
-    <h4 class="alert-heading">Well done!</h4>
-    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+
+<!-- Creamos la barra de navegación -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="#">Top navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <a class="btn btn-outline-danger my-2 my-sm-0" href="{{ url_for('logout') }}">Logout</a>
+    
+    </form>
+    </div>
+  </nav>
+
+<!-- Creamos la alerta informativa -->
+  <div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <h2 class="alert-heading font-weight-bold">Bienvenido {{ name }}</h2>
+    <p> En el siguiente formulario podrás diseñar tu <strong>Vagrant File</strong>.
+        Una vez lo tengas diseñado envía el formulario para obtener el archivo.
+    </p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <hr>
-    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    <p class="mb-0">Disfruta de tu VM</p>
 </div>
-<a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+
 {% endblock %}
-  
+

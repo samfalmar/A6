@@ -1,5 +1,5 @@
 #Importamos el framework Flask
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
 #Cargamos el fichero de configuración config.py
@@ -20,62 +20,71 @@ db = MySQL(app)
 # Cuando accedemos a la ruta raíz nos redirigirá a login
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    if not session.get("name"):
+        return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 #Definición de las rutas y los métodos GET / POST
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        #print(request.form['username'])
-        #print(request.form['password'])
-        user = User(0, request.form['username'], request.form['password'])
-        logged_user = ModelUser.login(db, user)
-        if logged_user != None:
-            if logged_user.password:
-                return redirect(url_for('home'))
+    if not session.get("name"):
+        if request.method == 'POST':
+            #print(request.form['username'])
+            #print(request.form['password'])
+            user = User(0, request.form['username'], request.form['password'])
+            logged_user = ModelUser.login(db, user)
+            if logged_user != None:
+                if logged_user.password:
+                    session["name"] = request.form['username']
+                    return redirect(url_for('home'))
+                else:
+                    flash("Invalid password...","alert-warning")
+                    return render_template('auth/login.html')
             else:
-                flash("Invalid password...")
+                flash("User not found...","alert-warning")
                 return render_template('auth/login.html')
         else:
-            flash("User not found...")
             return render_template('auth/login.html')
-    else:
-        return render_template('auth/login.html')
-
+    return redirect(url_for('home'))
 
 #Definición de las rutas y los métodos GET / POST
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        user = User(0, request.form['username'], request.form['password'])
-        logged_user = ModelUser.login(db, user)
-        if logged_user != None:
-            flash("El usuario ya existe")
-            return render_template('auth/register.html')
+    if not session.get("name"):
+        if request.method == 'POST':
+            user = User(0, request.form['username'], request.form['password'])
+            logged_user = ModelUser.login(db, user)
+            if logged_user != None:
+                flash("El usuario ya existe","alert-warning")
+                return render_template('auth/register.html')
+            else:
+                try:
+                    cur = db.connection.cursor()
+                    cur.execute("""INSERT INTO user (username, password) 
+                            VALUES (%s, %s)""", (request.form['username'], User.hashed_password(request.form['password'])))
+                    db.connection.commit()
+                    cur.close()
+                    flash("Usuario creado con éxito", "alert-success")
+                    return redirect(url_for('login'))
+                except Exception as ex:
+                    raise Exception(ex)
         else:
-            try:
-                cur = db.connection.cursor()
-                cur.execute("""INSERT INTO user (username, password) 
-                        VALUES (%s, %s)""", (request.form['username'], User.hashed_password(request.form['password'])))
-                db.connection.commit()
-                cur.close()
-                return render_template('auth/login.html')
-            except Exception as ex:
-                raise Exception(ex)
-    else:
-        return render_template('auth/register.html')
-
+            return render_template('auth/register.html')
+    return redirect(url_for('home'))
 
 
 # Definimos el logout
 @app.route('/logout')
 def logout():
+    session["name"] = None
     return redirect(url_for('login'))
 
 # Definimos el home
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    if not session.get("name"):
+        return redirect(url_for('login'))
+    return render_template('home.html', name = session['name'])
 
 # Definimos errores 401
 def status_401(error):
