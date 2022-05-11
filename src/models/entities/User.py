@@ -1,4 +1,4 @@
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # Definimos la clase con el método init que recibe id, username y password
@@ -13,3 +13,8 @@ class User():
     # Verificación del hash. hashed_password -> password después del hash / password = password en texto plano
     def check_password(self, hashed_password, password):
         return check_password_hash(hashed_password, password)
+
+    # Creamos el Hash de la pw  
+    @classmethod
+    def hashed_password(self, password):
+        return generate_password_hash(password)

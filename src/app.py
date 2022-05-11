@@ -26,8 +26,8 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # print(request.form['username'])
-        # print(request.form['password'])
+        #print(request.form['username'])
+        #print(request.form['password'])
         user = User(0, request.form['username'], request.form['password'])
         logged_user = ModelUser.login(db, user)
         if logged_user != None:
@@ -41,6 +41,31 @@ def login():
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
+
+
+#Definición de las rutas y los métodos GET / POST
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        user = User(0, request.form['username'], request.form['password'])
+        logged_user = ModelUser.login(db, user)
+        if logged_user != None:
+            flash("El usuario ya existe")
+            return render_template('auth/register.html')
+        else:
+            try:
+                cur = db.connection.cursor()
+                cur.execute("""INSERT INTO user (username, password) 
+                        VALUES (%s, %s)""", (request.form['username'], User.hashed_password(request.form['password'])))
+                db.connection.commit()
+                cur.close()
+                return render_template('auth/login.html')
+            except Exception as ex:
+                raise Exception(ex)
+    else:
+        return render_template('auth/register.html')
+
+
 
 # Definimos el logout
 @app.route('/logout')

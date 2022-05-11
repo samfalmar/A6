@@ -4,7 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	10.4.24-MariaDB
 --
--- Creación de la BBDD a6
+-- Creacion de la BBDD a6
 --
 DROP DATABASE IF EXISTS `a6`;
 CREATE DATABASE a6;
