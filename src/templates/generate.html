@@ -1,0 +1,146 @@
+<!-- Heredamos el contenido de base.html-->
+{% extends './display_base.html' %}
+
+<!-- Definimos el título -->
+{% block title %}Home{% endblock %}
+
+
+<!-- Definimos el cuerpo -->
+{% block body %}
+
+<!-- Creamos la barra de navegación -->
+<header>
+    <div class="px-3 py-2 bg-dark text-white">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+            <img class="mb-1" src="{{ url_for('static', filename='img/flask-removebg.png') }}" alt="" width="80" height="80">
+          </a>
+
+          <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+            <li>
+              <a href="home" class="nav-link text-secondary">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"/></svg>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="generate" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#generate"/></svg>
+                Generate Code
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
+                Products
+              </a>
+            </li>
+            <li>
+              <a href="logout" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#logout"/></svg>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+<!-- Creamos la alerta informativa -->
+  <div class="alert alert-success" role="alert">
+    <h2 class="alert-heading font-weight-bold">Hi {{ name }}</h2>
+    <p> To obtain the Vagrantfile, complete the form.</p>
+  </div>
+
+<!-- Creamos el formulario -->
+</br></br>
+<h1 class="display-3">Vagrant Form</h1>
+</br></br>
+<div class="container">
+  <form class="form-signin" action="/vagrant" method="POST">
+    <div class="form-row">
+      <div class="col-md-4 mb-4">
+        <label for="OS"><strong>Choose your OS</strong></label>
+          <select class="form-select" aria-label="Default select example" placeholder="OS" name ="OS" required>
+            <option selected></option>
+            <option value="ubuntu/trusty64">Ubuntu Server 14.04 LTS</option>
+            <option value="centos/7">Centos 7</option>
+            <option value="kalilinux/rolling">Kali Linux</option>
+          </select>
+      </div>
+      <div class="col-md-4 mb-4">
+        <label for="Cores"><strong>Number of Cores</strong></label>
+          <select class="form-select" aria-label="Default select example" placeholder="Cores" name ="Cores" required>
+            <option selected></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+      </div>
+      <div class="col-md-4 mb-4">
+        <label for="Memory"><strong>Number of Memory</strong></label>
+          <select class="form-select" aria-label="Default select example" placeholder="Memory" name ="Memory" required>
+            <option selected></option>
+            <option value="1024">1024 Megabytes</option>
+            <option value="2048">2048 Megabytes</option>
+            <option value="3072">3072 Megabytes</option>
+            <option value="4096">4096 Megabytes</option>
+          </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-4 mb-4">
+        <label for="Hostname"><strong>Hostname</strong></label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">@</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Hostname" name="Hostname" required>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <label for="Network"><strong>Define your network </strong></label>
+          <select class="form-select" aria-label="Default select example" placeholder="Network" name ="Network" required>
+            <option selected></option>
+            <option value="private_network">Private network</option>
+            <option value="public_network">Public network</option>
+            <option value="forwarded_port">Forwarded port</option>
+          </select>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <label for="Network2"><strong>Select your IP</strong></label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">IP</span>
+          </div>
+          <input type="text" class="form-control" required minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </form>
+</div>
+</br></br>
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }} alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+    {% endwith %}
+</div>
+{% endblock %}
+
+    

@@ -86,6 +86,28 @@ def home():
         return redirect(url_for('login'))
     return render_template('home.html', name = session['name'])
 
+# Definimos el generate code
+@app.route('/generate', methods=['GET', 'POST'])
+def generate():
+    if session.get("name"):
+        return render_template('generate.html', name = session['name'])
+    return redirect(url_for('login'))   
+    
+    
+@app.route('/vagrant',methods=['GET', 'POST'])
+def vagrant():
+    if session.get("name"):
+        if request.method == 'POST':
+            print(request.form['OS'])
+            print(request.form['Cores'])
+            print(request.form['Memory'])
+            print(request.form['Hostname'])
+            print(request.form['Network'])
+            flash("Vagrantfile has been succesfuly created", "alert-success")
+            return redirect(url_for('generate')) 
+    return redirect(url_for('login'))          
+
+
 # Definimos errores 401
 def status_401(error):
     return redirect(url_for('login'))

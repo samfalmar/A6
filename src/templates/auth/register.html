@@ -16,13 +16,14 @@
 
     <h1 class="h3 mb-3 fw-normal">Create an account</h1>
     <div class="form-floating">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+        <input type="text" required pattern="[A-Za-z0-9]{4,15}" minlength="8" class="form-control" id="username" name="username" placeholder="Username">
         <label for="username">Username</label>
     </div>
     <div class="form-floating mt-2">
-        <input type="password" class="form-control" name="password" placeholder="Password">
+        <input type="password" required pattern="[A-Za-z0-9]{4,15}" minlength="8"  class="form-control" name="password" placeholder="Password">
         <label for="password">Password</label>
     </div>
+    <small class="form-text text-muted">Your user and password must be 4-15 characters long. Numbers, lower and upper letters only.</small></br>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -36,7 +37,7 @@
         {% endif %}
 
     {% endwith %}
-
+    
     <p><button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button></p>
     <p><a href="login" class="w-100 btn btn-lg btn-secondary">Back to login</a></p>
 </form>

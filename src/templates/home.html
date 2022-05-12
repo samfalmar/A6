@@ -25,15 +25,9 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
-                Orders
+              <a href="generate" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#generate"/></svg>
+                Generate Code
               </a>
             </li>
             <li>
@@ -45,7 +39,7 @@
             <li>
               <a href="logout" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#logout"/></svg>
-                Customers
+                Logout
               </a>
             </li>
           </ul>
@@ -56,13 +50,11 @@
 
 
 <!-- Creamos la alerta informativa -->
-  <div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <h2 class="alert-heading font-weight-bold">Bienvenido {{ name }}</h2>
-    <p> En el siguiente formulario podrás diseñar tu <strong>Vagrant File</strong>.
-        Una vez lo tengas diseñado envía el formulario para obtener el archivo.
+  <div class="alert alert-success" role="alert">
+    <h2 class="alert-heading font-weight-bold">Dear {{ name }}</h2>
+    <p> In this app you can design your <strong>Vagrant File.</strong><br/>
+        Click on <strong>"Generate Code"</strong> in the nav bar to continue.
     </p>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <hr>
     <p class="mb-0">Disfruta de tu VM</p>
 </div>
