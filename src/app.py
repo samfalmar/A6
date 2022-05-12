@@ -9,7 +9,7 @@ from config import config
 from models.Modeluser import ModelUser
 
 # Entities
-from models.entities.User import User
+from models.entities.User import User, Generate
 
 #Inicializamos la aplicación
 app = Flask(__name__)
@@ -98,11 +98,7 @@ def generate():
 def vagrant():
     if session.get("name"):
         if request.method == 'POST':
-            print(request.form['OS'])
-            print(request.form['Cores'])
-            print(request.form['Memory'])
-            print(request.form['Hostname'])
-            print(request.form['Network'])
+            Generate.generate_vagrantfile(session['name'], request.form['OS'], request.form['Cores'], request.form['Memory'], request.form['Hostname'], request.form['Network'])
             flash("Vagrantfile has been succesfuly created", "alert-success")
             return redirect(url_for('generate')) 
     return redirect(url_for('login'))          
