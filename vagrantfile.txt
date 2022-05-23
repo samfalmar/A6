@@ -4,22 +4,26 @@
 
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: "apt-get update && apt-get install -y  docker.io "
-  	
-  config.vm.define "$name" do |$name|
-    
-    config.vm.box = "$OS"
-    config.vm.box_url = "http://files.vagrantup.com/$OS.box"
-    config.vm.hostname = "$name"
-    config.vm.network "$Network", ip: ""
-    
-    master.vm.provider "virtualbox" do |vm|
-        vm.memory = $Memory
-        vm.cpus = $Cores
-    end
-    
-  end
-  
+
+#Definimos la máquina que vamos a utilizar
+  config.vm.box = "$OS"
+  config.vm.hostname = "$Hostname"
+
+
+#Configuración de la máquina
+config.vm.provider "virtualbox" do |vb|
+  vb.gui = true
+  vb.memory = $Memory
+  vb.cpus = $Cores
+end
+
+config.vm.define "lamp" do |lamp|
+
+#Declaramos el tipo de conexión y IPs   
+config.vm.network "$Network", ip: ""
+
+
+end
+#Fin de la configuración
 end
